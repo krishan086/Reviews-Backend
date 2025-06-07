@@ -55,7 +55,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def perform_create(self, serializer):
+  def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
 serializers:
@@ -63,7 +63,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(source='user.id', read_only=True)
     gig_id = serializers.IntegerField()
 
-    def create(self, validated_data):
+  def create(self, validated_data):
         gig = Gig.objects.get(id=validated_data.pop('gig_id'))
         return Review.objects.create(user=self.context['request'].user, gig=gig, **validated_data)
 
